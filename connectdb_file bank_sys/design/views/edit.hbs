@@ -1,0 +1,30 @@
+{{>header}}
+{{>nav}}
+<section class="container my-5">
+    <h3 class="text-primary">Edite User</h3>
+<form method="post">
+    <div class="mb-3 ">
+        <input name="name" placeholder="name" class="form-control" value={{user.name}}>
+    </div>
+    <div class="mb-3 ">
+        <input name="city" placeholder="city" class="form-control" value={{user.City}}>
+    </div>
+    <div class="mb-3 ">
+        <input name="building" placeholder="building" class="form-control" value={{user.building}}>
+    </div>
+    <div class="mb-3 ">
+        <input name="street" placeholder="street" class="form-control" value={{user.street}}>
+    </div>
+    <div class="mb-3">
+        <input name="balance" placeholder="balance" class="form-control" value={{user.balance}} >
+    </div>
+   
+
+    <div class="mb-3">
+        <input type="submit" value="Edit User" class="btn btn-primary">
+    </div>
+</form>
+
+</section>
+
+{{>footer}}

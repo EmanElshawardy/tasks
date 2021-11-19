@@ -1,18 +1,19 @@
 const   addUserForm         = document.querySelector('#addUserForm')
         allUsersForm        = document.querySelector('#allUsersForm')
+        Users_in            = document.querySelector('#Users_in')
         userName            = document.querySelector('#userName'),
-        city            = document.querySelector('#city'),
-        street            = document.querySelector('#street'),
+        city                = document.querySelector('#city'),
+        street              = document.querySelector('#street'),
         building            = document.querySelector('#building'),
         userBalance         = document.querySelector('#userBalance'),
         addUser             = document.querySelector('#addUser')
         addBalanace         = document.querySelector('#addBalanace'),
         withdrawBalanace    = document.querySelector('#withdraw'),
-        tBody               = document.querySelector('#usersList'),
+        tBody               = document.querySelector('#usersList'),        
         usersArray          = fetchUsersFromLocalStorage('usersArray') ? fetchUsersFromLocalStorage('usersArray') : []
+        
 
 /* Methods */
-
 //Add to Local
 const addUsersToLocalStorage = (key, value) => {
     localStorage.setItem(key, JSON.stringify(value))
@@ -25,15 +26,13 @@ function fetchUsersFromLocalStorage(data){
          usersArray = JSON.parse(stringData)
          return usersArray
     }
+    
 }
 
 //Create table row
-// <td>${user.cityValue}</td>
-//<td>${user.buildingValue}</td>
-//<td>${user.streetValue}</td>
-//<td>${user.balanceValue}</td>
+
 const createUsersRow = (user) => {
-    
+  console.log(user)
     return       `<tr>
                     <th scope="row">${user.id}</th>
                         <td>${user.nameValue}</td>
@@ -41,21 +40,15 @@ const createUsersRow = (user) => {
                         <td>
                             <input type="submit" value="Add" class="btn btn-success" id= "addBalanace" onclick="addUsersBalance(${user.balanceValue}, ${user.id})">
                             <input type="submit" value="Withdraw" class="btn btn-primary" onclick="withdrawUserBalance(${user.balanceValue}, ${user.id})">
-                            <input type="submit" value="Show" id="show" class="btn btn-warning"onclick="Show(${user.balanceValue})">
+                            <input type="submit" value="Show" id="Show" class="btn btn-warning" onclick=show(${user.id})>
                     </td>
                 </tr>`
 }
 
       
-const Show = user => {
 
-    alert(JSON.stringify( user.balanceValue))
-    // console.log(`${user}`)
-    // createTableWithFetchedUsers() 
-}
 //Adding Balanace
 const addUsersBalance = (balanceValue, id) => {
-
     let num    = window.prompt('Please Add Your Balance')
 
     if ( Number(num)>=100 && Number(num)<=  6000  ) {
@@ -64,6 +57,8 @@ const addUsersBalance = (balanceValue, id) => {
         usersArray = usersArray.map( user => {
             if (user.id === id) {
                 user.balanceValue = balanceValue
+                user.transactions.push({type:"Add Balance",amount:Number(num)})
+
                 return user
             } else{
                 return user
@@ -78,6 +73,19 @@ const addUsersBalance = (balanceValue, id) => {
         
     }
 }
+//show data
+
+let show = (user) => {
+for(let i=0;i<usersArray.length;i++){
+    if(usersArray[i].id===user){
+        localStorage.setItem('data_client', JSON.stringify(usersArray[i]))
+        break;
+    }
+}
+window.location.replace("client.html");
+
+}
+
 
 //Withdrawing Balance
 const withdrawUserBalance = (balanceValue, id) => {
@@ -89,11 +97,21 @@ const withdrawUserBalance = (balanceValue, id) => {
 
         usersArray = usersArray.map( user => {
             if (user.id === id) {
+                // console.log('trans',user.transactions[0].withdraw)
                 user.balanceValue = balanceValue
-                return user
+                // if(user.transactions[0].withdraw===null){
+                // user.transactions[0].withdraw =balanceValue-Number(num)
+                // user.transactions[0].Add_Balance =Number(num)
+            //  }else{
+                 user.transactions.push({type:"With Draw",amount:Number(num)})
+
+                //  }
+                 return user
+
             } else{
                 return user
             }            
+        
         }) 
         addUsersToLocalStorage('usersArray', usersArray)
         createTableWithFetchedUsers()
@@ -119,9 +137,10 @@ const withdrawUserBalance = (balanceValue, id) => {
 function createTableWithFetchedUsers() {
     tBody.innerHTML =''
     let fetchedUsers = fetchUsersFromLocalStorage('usersArray')
-    // console.log(fetchedUsers)
+    // console.log("fet",fetchedUsers)
     fetchedUsers.map(user=> tBody.innerHTML += createUsersRow(user) )
 }
+
 
 
 /**Event Handlers */
@@ -139,7 +158,7 @@ if (addUserForm) {
                 
                 userObject = {id, nameValue, balanceValue,
                     address:{cityValue,streetValue,buildingValue},
-                    transactions: []
+                    transactions: [{type:"Balance",amount:balanceValue}]
                 }
             
             // const userObject = {
@@ -166,5 +185,31 @@ if (addUserForm) {
 
 //Internal Page modifying users
 if (allUsersForm) {
-    createTableWithFetchedUsers()
+    // localStorage.clear();
+    console.log(usersArray)
+   createTableWithFetchedUsers()
+}
+if(Users_in){
+   let data=fetchUsersFromLocalStorage('data_client');
+    console.log(data)
+const tBody_client= document.querySelector('#usersclient')
+tBody_client.innerHTML =`<tr>
+<th>${data.id}</th>
+<td>${data.nameValue}</td>
+<td>${data.address.cityValue}</td>
+<td>${data.address.buildingValue}</td>
+<td>${data.address.streetValue}</td>
+<td>${data.balanceValue}</td>
+</tr>`
+const tBody_transactions= document.querySelector('#users_transactions')
+let trans=data.transactions;
+trans.map(sub_trans=>{
+    tBody_transactions.innerHTML+=`<tr>
+    <td>${sub_trans.type}</td>
+    <td>${sub_trans.amount}</td>
+    
+    </tr>`
+
+})
+
 }

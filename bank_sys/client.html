@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <title>Credit app</title>
+</head>
+<body>
+  <div class="container my-5">
+
+    <table class="table text-center" id="Users_in">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">User Name</th>
+                <th scope="col">city</th>
+                <th scope="col">building</th>
+                <th scope="col">street</th>
+                <th scope="col">User Balance</th>            
+                <!-- <th scope="col">Actions</th>             -->
+            </tr>
+        </thead>
+        <tbody id="usersclient">
+            
+        </tbody>        
+        </table>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="container border border-primary rounded p-3 d-none" id="table"></div>
+        <h6>transactions</h6>
+
+        <table class="table text-center" id="transactions">
+          <thead>
+            <tr>
+                <th scope="col">type</th>
+                <th scope="col">amount</th>
+                <!-- <th scope="col">Add Balance</th> -->
+               
+            </tr>
+        </thead>
+        <tbody id="users_transactions">
+            
+        </tbody>    
+        </table>
+  </div>
+
+  <script src="js/js.js"></script>
+</body>
+</html>

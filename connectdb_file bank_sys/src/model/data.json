@@ -1,0 +1,1 @@
+[{"_id":1637327932103,"name":"jkjl m","City":"Giza","street":"we","building":"4","balance":7000,"trans":[{"type":"Balance","amount":"7000"},{"type":"Deposit","amount":"111"},{"type":"Withdraw","amount":"111"}]}]
