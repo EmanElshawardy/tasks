@@ -1,0 +1,8 @@
+<section class="container my-3">
+    <div *ngIf="status; else elseBlock">show</div>
+    <ng-template #elseBlock>
+        <div>hide</div>
+    </ng-template>
+    <button (click)="changeStatus()" class="btn btn-danger">change</button>
+    
+</section>
